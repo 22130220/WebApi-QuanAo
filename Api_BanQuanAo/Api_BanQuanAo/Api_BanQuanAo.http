@@ -1,0 +1,6 @@
+@Api_BanQuanAo_HostAddress = http://localhost:5009
+
+GET {{Api_BanQuanAo_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
