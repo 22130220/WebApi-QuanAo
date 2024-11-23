@@ -24,4 +24,6 @@ public partial class Product
     public int DiscountedPercentage { get; set; }
 
     public decimal Rating { get; set; }
+
+    public virtual ICollection<Productincart> Productincarts { get; set; } = new List<Productincart>();
 }

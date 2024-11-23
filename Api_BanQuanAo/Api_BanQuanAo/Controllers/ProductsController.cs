@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api_BanQuanAo.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Api_BanQuanAo.Data;
 
 namespace Api_BanQuanAo.Controllers
 {
@@ -22,13 +24,15 @@ namespace Api_BanQuanAo.Controllers
 
         // GET: api/Products
         [HttpGet]
+     //   [Authorize(Roles = AppRole.Admin)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/get/Products/5
         [HttpGet("{id}")]
+      //  [Authorize(Roles = AppRole.Customer)]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -44,6 +48,7 @@ namespace Api_BanQuanAo.Controllers
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = AppRole.Admin)]
         public async Task<IActionResult> PutProduct(int id, Product product)
         {
             if (id != product.Id)
@@ -75,6 +80,7 @@ namespace Api_BanQuanAo.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = AppRole.Admin + "," + AppRole.Customer)]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _context.Products.Add(product);
@@ -99,6 +105,7 @@ namespace Api_BanQuanAo.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = AppRole.Admin)]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
